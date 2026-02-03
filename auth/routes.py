@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, request, render_template, redirect, url_for
+from flask import Blueprint, flash, request, render_template, redirect, url_for, session
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -8,6 +8,7 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         if username == "admin":
+            session["user"] = username
             return redirect(url_for("notes.home"))
         else:
             flash("Usuario no existe", "error")
