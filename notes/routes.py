@@ -1,4 +1,4 @@
-from flask import request, jsonify, render_template, redirect, url_for, Blueprint
+from flask import request, jsonify, render_template, redirect, url_for, Blueprint, flash
 from models import Note, db
 
 
@@ -21,7 +21,7 @@ def create_note():
 
         db.session.add(note_db)
         db.session.commit()
-
+        flash("Nota creada exitosamente.", "success")
         return redirect(url_for("notes.home"))
 
     return render_template("note_form.html")
