@@ -1,24 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}App Notas{% endblock title %}
-    </title>
-</head>
-<body style="background-color: aqua;">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        <ul>
-            {% for category, message in messages %}
-            <li class="{{ category }}">
-                {{ message }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    {% endwith %}
+    <title>{% block title %}App Notas{% endblock title %}</title>
 
-    {% block content %}{% endblock content %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen flex flex-col font-[Inter] bg-gray-50">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm py-4 mb-6">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a href="{{ url_for('notes.home') }}" class="text-xl font-bold text-gray-800">
+                Notas App
+            </a>
+            <a href="{{ url_for('notes.create_note') }}"
+               class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                Crear Nota
+            </a>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="container mx-auto px-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="p-3 mb-3 rounded-lg
+                        {% if category == 'success' %}bg-green-200 text-green-800
+                        {% elif category == 'error' %}bg-red-200 text-red-800
+                        {% elif category == 'warning' %}bg-yellow-200 text-yellow-800
+                        {% else %}bg-blue-200 text-blue-800
+                        {% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 flex-1">
+        {% block content %}{% endblock content %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto bg-gray-100 border-t">
+    <div class="container mx-auto px-4 py-6 text-center text-sm text-gray-600">
+        <p>
+            © {{ current_year | default(2026) }} Notas App.
+            Hecho con ❤️ y Flask. ZapataLuisH Inc.
+        </p>
+    </div>
+    </footer>
+
+
 </body>
 </html>
