@@ -14,3 +14,10 @@ def login():
             flash("Usuario no existe", "error")
 
     return render_template("login.html")
+
+
+@auth_bp.route("/logout")
+def logout():
+    session.pop("user", None)
+    flash("Has cerrado sesión correctamente.", "success")
+    return redirect(url_for("auth.login"))
